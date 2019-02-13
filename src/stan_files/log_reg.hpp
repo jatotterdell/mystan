@@ -252,7 +252,7 @@ public:
 
 
             current_statement_begin__ = 13;
-            lp_accum__.add(normal_log<propto__>(beta, 0, 1));
+            lp_accum__.add(normal_log<propto__>(get_base1(beta,1,"beta",1), 0, 1.75));
             current_statement_begin__ = 14;
             for (int i = 1; i <= N; ++i) {
 

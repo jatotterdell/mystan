@@ -173,14 +173,14 @@ public:
 
             // validate, data variables
             current_statement_begin__ = 2;
-            check_greater_or_equal(function__,"N",N,0);
+            check_greater_or_equal(function__,"N",N,1);
             current_statement_begin__ = 3;
             check_greater_or_equal(function__,"K",K,1);
             current_statement_begin__ = 4;
             current_statement_begin__ = 5;
             current_statement_begin__ = 6;
             current_statement_begin__ = 8;
-            check_greater_or_equal(function__,"Npred",Npred,0);
+            check_greater_or_equal(function__,"Npred",Npred,1);
             current_statement_begin__ = 9;
             current_statement_begin__ = 10;
             // initialize data variables
@@ -292,7 +292,7 @@ public:
 
 
             current_statement_begin__ = 17;
-            lp_accum__.add(normal_log<propto__>(beta, 0, 1));
+            lp_accum__.add(normal_log<propto__>(get_base1(beta,1,"beta",1), 0, 1.75));
             current_statement_begin__ = 18;
             for (int i = 1; i <= N; ++i) {
 
@@ -393,7 +393,7 @@ public:
                 current_statement_begin__ = 25;
                 stan::model::assign(ypred, 
                             stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
-                            binomial_rng(get_base1(n,i,"n",1),inv_logit(multiply(stan::model::rvalue(Xpred, stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "Xpred"),beta)), base_rng__), 
+                            binomial_rng(get_base1(npred,i,"npred",1),inv_logit(multiply(stan::model::rvalue(Xpred, stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "Xpred"),beta)), base_rng__), 
                             "assigning variable ypred");
             }
 
