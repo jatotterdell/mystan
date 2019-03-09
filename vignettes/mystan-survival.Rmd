@@ -1,0 +1,87 @@
+---
+title: "Survival example"
+author: "James Totterdell"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	collapse = TRUE,
+	comment = "#>"
+)
+```
+
+# Example
+
+```{r}
+library(mystan)
+library(haven)
+library(icensBKL)
+library(bayesplot)
+library(ggplot2)
+library(gridExtra)
+
+data("breastCancer")
+
+y <- breastCancer$low
+y[is.na(breastCancer$low)] <- breastCancer[is.na(breastCancer$low), ]$upp
+
+rcens <- breastCancer$upp
+rcens[is.na(rcens)] <- 0
+
+v <- rep(3, length(y))
+v[is.na(breastCancer$upp)] <- 0
+v[is.na(breastCancer$low)] <- 2
+
+X <- model.matrix( ~ factor(treat), data = breastCancer)[,]
+```
+
+We can estimate the models using `survreg` functions as follows:
+
+```{r}
+m_exp <- survreg_ph_exponential(X, y, v, rcens, sigma0 = 10, refresh = 0, chains = 2)
+m_wei <- survreg_ph_weibull(X, y, v, rcens, gamma0 = 1/1000, sigma0 = 10, refresh = 0, chains = 2)
+```
+
+Using `bayesplot` we check the posterior.
+
+```{r, fig.show='hold', fig.cap='Posterior densities of predictor parameters.'}
+p1 <- mcmc_areas(as.matrix(m_exp), regex_pars = "beta") + 
+  xlim(-10, 3) +
+  ggtitle("Exponential")
+p2 <- mcmc_areas(as.matrix(m_wei), regex_pars = "beta") + 
+  xlim(-10, 3) +
+  ggtitle("Weibull")
+p1; p2
+```
+
+By default, the functions return posterior predictive values for the input data obeying the censoring rules used.
+
+```{r}
+breastCancer[c(1, 9), ]
+
+p1 <- ggplot(data.frame(x = as.matrix(m_wei)[, "y_tilde[1]"]),
+       aes(x)) +
+  geom_histogram(boundary = 0) +
+  geom_vline(xintercept = c(0, 5), col = "red") +
+  labs(x = expression(tilde(y)[1]))+
+  bayesplot::theme_default()
+
+p2 <- ggplot(data.frame(x = as.matrix(m_wei)[, "y_tilde[9]"]),
+       aes(x)) +
+  geom_histogram(boundary = 7) +
+  geom_vline(xintercept = c(7,  16), col = "red") +
+  labs(x = expression(tilde(y)[9]))+
+  bayesplot::theme_default()
+
+p1; p2
+```
