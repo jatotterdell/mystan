@@ -1,5 +1,6 @@
 doc
 exec/*.rda
+Meta
 
 # RStudio files
 .Rproj.user/
