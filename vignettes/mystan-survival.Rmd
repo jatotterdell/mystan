@@ -68,7 +68,29 @@ By default, the functions return posterior predictive values for the input data 
 
 ```{r}
 breastCancer[c(1, 9), ]
+```
 
+
+```{r, fig.cap='Exponential model prediction.'}
+p1 <- ggplot(data.frame(x = as.matrix(m_exp)[, "y_tilde[1]"]),
+       aes(x)) +
+  geom_histogram(boundary = 0) +
+  geom_vline(xintercept = c(0, 5), col = "red") +
+  labs(x = expression(tilde(y)[1]))+
+  bayesplot::theme_default()
+
+p2 <- ggplot(data.frame(x = as.matrix(m_exp)[, "y_tilde[9]"]),
+       aes(x)) +
+  geom_histogram(boundary = 7) +
+  geom_vline(xintercept = c(7,  16), col = "red") +
+  labs(x = expression(tilde(y)[9]))+
+  bayesplot::theme_default()
+
+p1; p2
+```
+
+
+```{r, fig.cap='Weibull model prediction.'}
 p1 <- ggplot(data.frame(x = as.matrix(m_wei)[, "y_tilde[1]"]),
        aes(x)) +
   geom_histogram(boundary = 0) +
