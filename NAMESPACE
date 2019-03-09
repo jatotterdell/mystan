@@ -2,6 +2,8 @@
 
 export(logreg_stan)
 export(logreg_stan_pred)
+export(survreg_ph_exponential)
+export(survreg_ph_weibull)
 import(Rcpp)
 import(methods)
 import(rstantools)
