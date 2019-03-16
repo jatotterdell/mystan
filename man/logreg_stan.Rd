@@ -4,7 +4,7 @@
 \alias{logreg_stan}
 \title{Bayesian logistic regression with Stan}
 \usage{
-logreg_stan(X, y, n, ...)
+logreg_stan(X, y, n, method = "sampling", ...)
 }
 \arguments{
 \item{X}{Numeric matrix of design.}

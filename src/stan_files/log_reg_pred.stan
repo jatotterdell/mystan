@@ -14,7 +14,7 @@ parameters {
 }
 model {
   vector[N] eta = X * beta;
-  beta[1] ~ normal(0, 1.75);
+  beta ~ normal(0, 1.75);
   for(i in 1:N) {
     y[i] ~ binomial(n[i], inv_logit(eta[i]));
   }

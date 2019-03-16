@@ -7,9 +7,10 @@
 #' @param ... Arguments passed to `rstan::sampling` (e.g. iter, chains).
 #' @return An object of class `stanfit` returned by `rstan::sampling`
 #'
-logreg_stan <- function(X, y, n, ...) {
+logreg_stan <- function(X, y, n, method = "sampling", ...) {
+  fun <- match.fun(method)
   standata <- list(X = X, y = y, n = n, N = length(y), K = ncol(X))
-  out <- rstan::sampling(stanmodels$log_reg, data = standata, ...)
+  out <- fun(stanmodels$log_reg, data = standata, ...)
   return(out)
 }
 
@@ -25,8 +26,9 @@ logreg_stan <- function(X, y, n, ...) {
 #' @param ... Arguments passed to `rstan::sampling` (e.g. iter, chains).
 #' @return An object of class `stanfit` returned by `rstan::sampling`
 #'
-logreg_stan_pred <- function(X, y, n, Xpred, npred, ...) {
+logreg_stan_pred <- function(X, y, n, Xpred, npred, method = "sampling", ...) {
+  fun <- match.fun(method)
   standata <- list(X = X, y = y, n = n, N = length(y), K = ncol(X), Npred = nrow(Xpred), Xpred = Xpred, npred = npred)
-  out <- rstan::sampling(stanmodels$log_reg_pred, data = standata, ...)
+  out <- fun(stanmodels$log_reg_pred, data = standata, ...)
   return(out)
 }
