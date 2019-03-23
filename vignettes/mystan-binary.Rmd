@@ -1,0 +1,44 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Link functions
+
+## Logistic
+
+$$
+\begin{aligned}
+g(\mu) &= \text{logit}(\mu) \\ 
+&= \ln\frac{\mu}{1-\mu} \\
+g^{-1}(\eta) &= \text{logit}^{-1}(\eta) \\
+&= \frac{1}{1+e^{-\eta}}
+\end{aligned}
+$$
+
+## Probit
+
+## Robit
+
+# Likelihoods
+
+## Bernoulli
+
+## Binomial
+
+## Beta-Binomial
+
+
