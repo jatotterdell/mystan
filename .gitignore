@@ -1,10 +1,10 @@
+inst/doc
 doc
 exec/*.rda
 Meta
 
 # RStudio files
 .Rproj.user/
-
 # Source files
 src/stan_files/*.o
 src/stan_files/*.cc
@@ -12,7 +12,6 @@ src/stan_files/*.hpp
 src/mystan.so
 src/mystan.dll
 src/init.o
-
 # Vignette files
 vignettes/*.R
 !vignettes/*.Rmd
@@ -20,15 +19,12 @@ vignettes/*.html
 vignettes/*_files
 .DS_Store
 revdep/*
-
 # knitr and R markdown default cache directories
 /*_cache/
 /cache/
-
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
-
 # History files
 .Rhistory
 .Rapp.history
