@@ -17,10 +17,8 @@ model {
     p = inv_logit(X * beta);
   else if (link == 1)
     p = Phi(X * beta);
-  else {
-    // note no vectorised version
+  else
     for (i in 1:N) p[i] = student_t_cdf(dot_product(X[i, ], beta), 4, 0, 1);
-  }
   beta ~ multi_normal(mu0, Sigma0);
   y ~ binomial(n, p);
 }
