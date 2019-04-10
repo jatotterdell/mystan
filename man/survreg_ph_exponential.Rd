@@ -4,8 +4,9 @@
 \alias{survreg_ph_exponential}
 \title{Bayesian proportional hazards exponential model}
 \usage{
-survreg_ph_exponential(X, y, v, rcens = rep(NA, length(y)), sigma0 = 1,
-  ...)
+survreg_ph_exponential(X, y, v, rcens = rep(0, length(y)), mu0 = rep(0,
+  ncol(X)), Sigma0 = diag(1, ncol(X)), estimate = 1,
+  method = "sampling", ...)
 }
 \arguments{
 \item{X}{Design matrix}
@@ -16,10 +17,16 @@ survreg_ph_exponential(X, y, v, rcens = rep(NA, length(y)), sigma0 = 1,
 
 \item{rcens}{If interval censored data, then the right-censoring time}
 
-\item{...}{Other arguments}
+\item{mu0}{Prior mean for regression coefficients.}
+
+\item{Sigma0}{Prior covariance for regression coefficients.}
+
+\item{estimate}{Estimate the model (1) or just simulate data (0).}
+
+\item{...}{Arguments passed to `rstan::sampling` (e.g. iter, chains).}
 }
 \value{
-An object of class `stanfit` returned by `rstan::sampling`
+An object of class `stanfit` returned by `rstan`
 }
 \description{
 Bayesian proportional hazards exponential model
