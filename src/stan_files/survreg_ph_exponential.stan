@@ -23,13 +23,15 @@ functions {
 }
 
 data {
-  int<lower=0> N;
-  int<lower=0> K;
+  int<lower=1> N;
+  int<lower=1> K;
   real y[N];
   int v[N];
   real rcens[N];
   matrix[N, K] X;
-  real<lower=0> sigma0;
+  vector[K] mu0;                  // prior mean
+  matrix[K, K] Sigma0;            // prior covariance
+  int<lower=0, upper=1> estimate; // estimate the model or just simulate data
 }
 
 parameters {
@@ -37,19 +39,23 @@ parameters {
 }
 
 model {
-  vector[N] eta;
-  eta = exp(X*beta);
-  beta ~ normal(0, sigma0);
-  for(n in 1:N) {
-    if(v[n] == 0) // right-censored
-      target += exponential_lccdf(y[n] | eta[n]);
-    else if(v[n] == 1) // observed event time
-      target += exponential_lpdf(y[n] | eta[n]);
-    else if(v[n] == 2) // left-censored
-      target += exponential_lcdf(y[n] | eta[n]);
-    else if(v[n] == 3) // interval-censored
-      target += log_diff_exp(exponential_lcdf(rcens[n] | eta[n]),
-                             exponential_lcdf(y[n] | eta[n]));
+  vector[N] mu;
+  mu = exp(X*beta);
+  // prior
+  target += multi_normal_lpdf(beta | mu0, Sigma0);
+  // likelihood
+  if(estimate) {
+    for(n in 1:N) {
+      if(v[n] == 0) // right-censored
+        target += exponential_lccdf(y[n] | mu[n]);
+      else if(v[n] == 1) // observed event time
+        target += exponential_lpdf(y[n] | mu[n]);
+      else if(v[n] == 2) // left-censored
+        target += exponential_lcdf(y[n] | mu[n]);
+      else if(v[n] == 3) // interval-censored
+        target += log_diff_exp(exponential_lcdf(rcens[n] | mu[n]),
+                               exponential_lcdf(y[n] | mu[n]));
+    }
   }
 }
 
