@@ -59,17 +59,17 @@ model {
   }
 }
 
-generated quantities {
-  real y_tilde[N];
-
-  for(n in 1:N) {
-    if(v[n] == 0)
-      y_tilde[n] = exponential_lb_rng(exp(dot_product(X[n,], beta)), y[n]);
-    else if(v[n] == 1)
-      y_tilde[n] = exponential_rng(exp(dot_product(X[n,], beta)));
-    else if(v[n] == 2)
-      y_tilde[n] = exponential_ub_rng(exp(dot_product(X[n,], beta)), y[n]);
-    else if(v[n] == 3)
-      y_tilde[n] = exponential_lub_rng(exp(dot_product(X[n,], beta)), y[n], rcens[n]);
-  }
-}
+// generated quantities {
+//   real y_tilde[N];
+//
+//   for(n in 1:N) {
+//     if(v[n] == 0)
+//       y_tilde[n] = exponential_lb_rng(exp(dot_product(X[n,], beta)), y[n]);
+//     else if(v[n] == 1)
+//       y_tilde[n] = exponential_rng(exp(dot_product(X[n,], beta)));
+//     else if(v[n] == 2)
+//       y_tilde[n] = exponential_ub_rng(exp(dot_product(X[n,], beta)), y[n]);
+//     else if(v[n] == 3)
+//       y_tilde[n] = exponential_lub_rng(exp(dot_product(X[n,], beta)), y[n], rcens[n]);
+//   }
+// }
